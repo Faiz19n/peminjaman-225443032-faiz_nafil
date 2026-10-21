@@ -37,7 +37,7 @@
         <a href="{{ route('profil') }}">Ke halaman profil</a>
     </li>
     <li>
-        <a href="{{ route('alat') }}">Ke halaman alat</a>
+        <a href="{{ route('alat.index') }}">Ke halaman alat</a>
     </li>
     <li>
         <a href="{{ route('latihan-blade')}}">Ke halaman latihan-blade</a>

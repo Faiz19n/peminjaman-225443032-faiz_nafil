@@ -15,7 +15,8 @@ rel="stylesheet">
     <div class="wrapper">
         @include('layouts.partials.sidebar')
         <main class="content">
-        @yield('content')
+            @include('layouts.partials.alerts')
+            @yield('content')
         </main>
     </div>
     @include('layouts.partials.footer')
