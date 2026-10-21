@@ -55,7 +55,7 @@ class LoanController extends Controller
             // 2. Catat alat yang dipinjam di tabel pivot loan_item
             $peminjaman->items()->attach($alat->id, ['qty' => $validated['qty']]);
             // 3. Kurangi stok
-            throw new \Exception('Ujigagal');
+            //throw new \Exception('Ujigagal');
             $alat->decrement('stock', $validated['qty']);
         });
         return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil dicatat.');
