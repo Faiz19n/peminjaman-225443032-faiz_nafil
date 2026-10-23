@@ -46,4 +46,6 @@ class ItemRequest extends FormRequest
             'location' => 'Lokasi',
         ];
     }
+
+    
 }

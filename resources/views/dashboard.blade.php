@@ -27,6 +27,14 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="card border-danger shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted">Terlambat Dikembalikan</div>
+                    <div class="fs-2 fw-bold text-danger">{{ $alatTerlambatDikembalikan }}</div>
+                </div>
+            </div>
+        </div>
 
     </div>
     <div class="alert alert-info mt-4">

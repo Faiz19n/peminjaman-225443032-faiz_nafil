@@ -24,8 +24,7 @@
                                         <tr>
                                             <td>{{ $semuaKategori->firstItem() + $loop->index }}</td>
                                             <td>{{ $kategori->name }}</td>
-                                            <td class="text-muted">{{ $kategori->description ?? '-'
-                        }}</td>
+                                            <td class="text-muted">{{ $kategori->description ?? '-'}}</td>
                                             <td class="text-center">{{ $kategori->items_count }}</td>
                                             <td class="text-end">
                                                 <a href="{{ route('kategori.edit', $kategori) }}" class="btn btn-sm btn-warning">

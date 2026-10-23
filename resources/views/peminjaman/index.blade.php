@@ -7,6 +7,20 @@
             <i class="bi bi-plus-lg"></i> Pinjam Alat
         </a>
     </div>
+    <form method="GET" action="{{ route('peminjaman.index') }}" class="row g-2 mb-3">
+        <div class="col-md-4">
+            <select name="status" class="form-select" aria-label="Filter status peminjaman">
+                <option value="dipinjam" @selected(request('status') === 'dipinjam')>Dipinjam</option>
+                <option value="dikembalikan" @selected(request('status') === 'dikembalikan')>Dikembalikan</option>
+                <option value="terlambat" @selected(request('status') === 'terlambat')>Terlambat Dikembalikan</option>
+            </select>
+        </div>
+        <div class="col-md-2 d-grid">
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="bi bi-search"></i> Cari
+            </button>
+        </div>
+    </form>
     <div class="card shadow-sm">
         <div class="card-body">
             <table class="table table-striped align-middle mb-0">
@@ -23,11 +37,12 @@
                         @endif
                     </tr>
                 </thead>
+
                 <tbody>
                     @forelse ($semuaPeminjaman as $peminjaman)
                         <tr>
                             <td>{{ $semuaPeminjaman->firstItem() + $loop->index
-                                                }}</td>
+                                                        }}</td>
                             <td>{{ $peminjaman->user->name }}</td>
                             <td>
                                 @foreach ($peminjaman->items as $alat)
@@ -37,10 +52,12 @@
                             <td>{{ $peminjaman->loan_date->format('d/m/Y') }}</td>
                             <td>{{ $peminjaman->due_date->format('d/m/Y') }}</td>
                             <td>
-                                @if ($peminjaman->status === 'dipinjam')
-                                    <span class="badge bg-warning textdark">Dipinjam</span>
+                                @if ($peminjaman->status === 'dipinjam' && $peminjaman->due_date->lessThanOrEqualTo(today()))
+                                    <span class="badge bg-danger">Terlambat Dikembalikan</span>
+                                @elseif ($peminjaman->status === 'dipinjam')
+                                    <span class="badge bg-warning text-dark">Dipinjam</span>
                                 @else
-                                    <span class="badge bgsuccess bg-dark">Dikembalikan</span>
+                                    <span class="badge bg-success">Dikembalikan</span>
                                 @endif
                             </td>
                             @if (auth()->user()->isAdmin())
@@ -51,12 +68,12 @@
                                             $peminjaman
                                         ) }}" method="POST"
                                                         onsubmit="return confirm('Tandai alat
-                                                                                                                                            sudah dikembalikan?')">
+                                                                                                                                                                        sudah dikembalikan?')">
                                                         @csrf
                                                         @method('PATCH')
                                                         <button type="submit"
                                                             class="btn btn-sm
-                                                                                                                                            btn-success">
+                                                                                                                                                                        btn-success">
                                                             <i class="bi bi-arrow-returnleft"></i> Kembalikan
                                                         </button>
                                                     </form>

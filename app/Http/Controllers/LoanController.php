@@ -8,12 +8,21 @@ class LoanController extends Controller
 {
     public function index(Request $request)
     {
+        $validated = $request->validate([
+            'status' => 'nullable|in:dipinjam,dikembalikan,terlambat',
+        ]);
         $query = Loan::with(['user', 'items'])->latest();
         // Mahasiswa hanya boleh melihat peminjamannya sendiri
         if (!$request->user()->isAdmin()) {
             $query->where('user_id', $request->user()->id);
         }
-        $semuaPeminjaman = $query->paginate(10);
+        if (($validated['status'] ?? null) === 'terlambat') {
+            $query->where('status', 'dipinjam')
+                ->whereDate('due_date', '<=', today()->toDateString());
+        } elseif (!empty($validated['status'])) {
+            $query->where('status', $validated['status']);
+        }
+        $semuaPeminjaman = $query->paginate(10)->withQueryString();
         return view('peminjaman.index', compact('semuaPeminjaman'));
     }
     public function create()

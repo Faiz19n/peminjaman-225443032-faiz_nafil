@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LoanController;
 
@@ -49,6 +50,8 @@ Route::get('/nav', function () {
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+
+
 Route::resource('kategori', CategoryController::class)->except('show');
 
 // Hanya untuk tamu (belum login)
@@ -57,12 +60,14 @@ Route::middleware('guest')->group(function () {
  Route::post('/login', [AuthController::class, 'login']);
  Route::get('/daftar', [AuthController::class, 'showRegister'])->name('daftar');
  Route::post('/daftar', [AuthController::class, 'register']);
+ 
 });
 // Wajib login
 Route::middleware('auth')->group(function () {
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 Route::resource('peminjaman', LoanController::class)->only(['index', 'create','store']);
+//Route::get('/room', [RoomController::class, 'showRoom'])->name('room');
 
 // Khusus admin
 Route::middleware('admin')->group(function () {
